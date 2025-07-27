@@ -1,0 +1,35 @@
+{
+  "name": "median_skillplanner",
+  "version": "1.0.0",
+  "description": "",
+  "license": "MIT",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "private": "true",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "backend": "tsc && tsc-alias && node --env-file .env dist/server/index.js",
+    "frontend": "tsc && tsc-alias && cd dist/client && webpack serve"
+  },
+  "dependencies": {
+    "binparse": "^2.1.0",
+    "express": "^5.1.0",
+    "implode-decoder": "^1.0.2",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.32.0",
+    "@types/express": "^5.0.3",
+    "@types/lodash": "^4.17.20",
+    "@types/node": "^24.1.0",
+    "@types/winston": "^2.4.4",
+    "@typescript-eslint/parser": "^8.38.0",
+    "eslint": "^9.31.0",
+    "prettier": "^3.6.2",
+    "prettier-eslint": "^16.4.2",
+    "tsc-alias": "^1.8.16",
+    "typescript-eslint": "^8.38.0"
+  }
+}

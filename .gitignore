@@ -1,0 +1,11 @@
+charparser
+images
+dist
+node_modules
+.vscode
+logs
+mpq
+manifests
+mxl
+*.env
+mpqdata
