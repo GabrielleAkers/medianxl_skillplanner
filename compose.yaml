@@ -1,0 +1,51 @@
+services:
+    proxy:
+        env_file: ./.env
+        container_name: ngx
+        build:
+            context: ./ngx
+            dockerfile: nginx.Dockerfile
+            no_cache: true  # no_cache and delete + remake the default dirs for nginx fixes COPY not working i have no idea why i spent 2 hours on itc
+        ports:
+            - "443:443"
+            - "80:80"
+        networks:
+            - skillplanner
+            - default
+        volumes:
+            - nginx_logs:/var/log/nginx
+            - nginx_config:/etc/nginx
+            - ${SSL_PATH}:/etc/nginx/certs
+        deploy: 
+            restart_policy:
+                condition: "on-failure"
+                delay: 5s
+                max_attempts: 3
+                window: 120s
+    server:
+        image: median_skillplanner
+        env_file: ./.env
+        container_name: mxl-planner
+        hostname: skillplannerserver
+        networks:
+            - skillplanner
+            - default
+        build:
+            context: .
+            dockerfile: server.Dockerfile
+        volumes:
+          - median_skillplanner_volume:/app
+        ports:
+            - "${PORT}:${PORT}"
+        deploy:
+            restart_policy:
+                condition: "on-failure"
+                delay: 5s
+                max_attempts: 3
+                window: 120s
+networks:
+  skillplanner:
+volumes:
+    median_skillplanner_volume:
+    nginx_logs:
+    nginx_config:
