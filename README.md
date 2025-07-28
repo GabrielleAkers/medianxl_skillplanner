@@ -26,11 +26,16 @@ then
 I had some VERY strange errors related to a missing /run/user/1000/docker.sock file which i ended up fixing by doing this on the remote
 ```
 sudo mkdir /run/user/1000
-sudo ln -s /run/user/1004/docker.sock /run/user/1000/docker.sock
+sudo ln -s /run/user/$(id -u)/docker.sock /run/user/1000/docker.sock
 sudo chown -R $(whoami):$(whoami) /run/user/1000
 ```
 
 I also had some cert reading problems since i run as non root which were solved by `sudo chmod +r privkey`
+
+To bring the server down completely
+```
+docker compose down --volumes
+```
 
 ### Run the server alone
 Run in Docker
