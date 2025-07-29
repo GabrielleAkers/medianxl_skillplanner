@@ -1,0 +1,128 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+@font-face {
+    font-family: "Exocet";
+    src: url("assets/exocet.ttf");
+}
+
+.diablo-font {
+    font-family: "Exocet", sans-serif !important;
+}
+
+:root {
+  --median-light-red: #3e1c10;
+  --median-dark-red: #1d0801;
+  --median-light-gray: #6b6b6b;
+  --median-dark-gray: #2b2b2b;
+  --median-gold: #dfb679;
+}
+
+.skill-icon {
+  color: var(--median-gold);
+}
+
+.tab-content {
+  background-color: var(--median-light-red) !important;
+  height: 100%;
+}
+
+.median-content-border {
+  border-top: 5px solid var(--median-light-gray);
+  border-left: 5px solid var(--median-light-gray);
+  border-bottom: 5px solid var(--median-light-gray);
+}
+
+.median-border {
+  border-left: 5px solid var(--median-light-gray);
+}
+
+.nav-pills {
+  --bs-nav-pills-border-radius: 0 12px 12px 0;
+  --bs-nav-pills-link-active-color: var(--median-gold);
+  --bs-nav-pills-link-active-bg: var(--median-light-red);
+  --bs-nav-link-hover-color: var(--median-dark-light-gray);
+  color: var(--median-light-gray);
+}
+
+.nav-pills .nav-link {
+  border: 5px solid var(--median-light-gray);
+}
+
+.nav-pills .nav-link.active {
+  border-left: unset;
+  border-top: 5px solid var(--median-light-gray);
+  border-bottom: 5px solid var(--median-light-gray);
+  border-right: 5px solid var(--median-light-gray);
+}
+
+.nav-pills a {
+  background-color: var(--median-dark-red);
+  color: inherit;
+}
+
+.arrow-canvas {
+  transform: translateZ(1px);
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  background-color: #202020;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+body,
+div:first-child {
+  transform-style: preserve-3d !important;
+}
+
+html {
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+
+img,
+picture,
+video,
+canvas,
+svg {
+  max-width: 100%;
+  max-height: 100vh;
+}
+
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+
+#root,
+#__next {
+  isolation: isolate;
+}
