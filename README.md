@@ -50,7 +50,7 @@ npm run backend
 
 ### Run the client
 ```
-npm run frontend
+cd client && npm run dev
 ```
 
 ### Extra info
