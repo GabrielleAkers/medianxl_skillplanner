@@ -31,6 +31,8 @@ jobs:
           cd client
           npm install
           mkdir ./_site
+          touch .env
+          echo "VITE_HOSTNAME=${{ secrets.HOSTNAME }}" >> .env
           npm run build
           mv ./dist/assets ./_site
           mv ./dist/index.html ./_site
