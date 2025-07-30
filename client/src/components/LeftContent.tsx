@@ -1,6 +1,6 @@
 import { Button, Col, Container, Form, ListGroup, Nav, Row, Tab } from "solid-bootstrap";
 import { Component, createSignal } from "solid-js";
-import { useCharacterStore } from "./CharacterStoreProvider";
+import { INITIAL_CHARACTER, useCharacterStore } from "./CharacterStoreProvider";
 import { Attribute, ClassName } from "../App";
 import { useSavedCharacters } from "./SavedCharacterStoreProvider";
 
@@ -74,7 +74,6 @@ export const LeftContent: Component<LeftContentProps> = ({}) => {
     const [character, setCharacter] = useCharacterStore();
     const [selectedTab, setSelectedTab] = createSignal<TabOpt>("Edit Attributes");
 
-    const [buildName, setBuildName] = createSignal<string | null>(null);
     const [buildCode, setBuildCode] = createSignal<string | null>(null);
     const characterSaver = useSavedCharacters();
 
@@ -110,6 +109,21 @@ export const LeftContent: Component<LeftContentProps> = ({}) => {
                                     </Nav.Link>
                                 </Nav.Item>
                             ))}
+                            <Nav.Item>
+                                <Nav.Link
+                                    class="align-middle diablo-font attribute-tab-nav nav-link attribute-tab-button pt-0"
+                                    style={{ height: "100%", "line-height": "100%" }}
+                                    as="button"
+                                    onClick={() => {
+                                        characterSaver.setBuildName(null);
+                                        if (confirm("Are you sure? Any unsaved changes will be lost.")) {
+                                            location.reload();
+                                        }
+                                    }}
+                                >
+                                    New Build
+                                </Nav.Link>
+                            </Nav.Item>
                         </Nav>
                     </Col>
                     <Col sm={9} class="p-0">
@@ -156,17 +170,21 @@ export const LeftContent: Component<LeftContentProps> = ({}) => {
                                                         <div>Save Build</div>
                                                         <Form.Control
                                                             placeholder="Enter build name, will overwrite existing build if the names match"
-                                                            value={buildName() ?? ""}
+                                                            value={characterSaver.buildName()}
                                                             onChange={(e) => {
-                                                                setBuildName(e.currentTarget.value);
+                                                                characterSaver.setBuildName(e.currentTarget.value);
                                                             }}
                                                         />
                                                         <Button
                                                             class="median-button"
                                                             onClick={(e) => {
                                                                 e.preventDefault();
-                                                                if (!buildName()) return;
-                                                                characterSaver.saveCharacter(buildName(), character, character.class as ClassName);
+                                                                if (!characterSaver.buildName()) return;
+                                                                characterSaver.saveCharacter(
+                                                                    characterSaver.buildName(),
+                                                                    character,
+                                                                    character.class as ClassName
+                                                                );
                                                             }}
                                                         >
                                                             Save
@@ -208,7 +226,7 @@ export const LeftContent: Component<LeftContentProps> = ({}) => {
                                                                         class="m-0 me-1 median-button"
                                                                         onClick={() => {
                                                                             const loadedCharacter = characterSaver.loadCharacter(c.name);
-                                                                            setBuildName(c.name);
+                                                                            characterSaver.setBuildName(c.name);
                                                                             setCharacter(loadedCharacter);
                                                                         }}
                                                                     >

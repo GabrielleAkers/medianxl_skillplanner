@@ -1,4 +1,4 @@
-import { createContext, onMount, ParentProps, useContext } from "solid-js";
+import { Accessor, createContext, createSignal, onMount, ParentProps, Setter, useContext } from "solid-js";
 import { Attribute, ClassName } from "../App";
 import { SkillResponse } from "../../../shared/types";
 import { createStore, SetStoreFunction } from "solid-js/store";
@@ -21,6 +21,8 @@ export interface SavedCharacterContext {
     loadCharacterFromCode: (code: string) => Character | null;
     deleteCharacter: (name: string) => void;
     toClipboard: (character: Character) => Promise<void>;
+    setBuildName: Setter<string>;
+    buildName: Accessor<string>;
 }
 
 export const SavedCharacterContext = createContext<SavedCharacterContext>();
@@ -41,6 +43,7 @@ const isCharacter = (character: object): character is Character => {
 
 export const SavedCharacterStoreProvider = (props: ParentProps) => {
     const [store, setStore] = createStore<SavedCharacter[]>(INITIAL_SAVED_CHARACTERS);
+    const [buildName, setBuildName] = createSignal<string | null>(null);
 
     onMount(() => {
         const localStorageCharactersString = window.localStorage.getItem(SAVED_CHARACTERS_KEY);
@@ -137,7 +140,9 @@ export const SavedCharacterStoreProvider = (props: ParentProps) => {
     };
 
     return (
-        <SavedCharacterContext.Provider value={{ characters: store, saveCharacter, loadCharacter, loadCharacterFromCode, deleteCharacter, toClipboard }}>
+        <SavedCharacterContext.Provider
+            value={{ characters: store, saveCharacter, loadCharacter, loadCharacterFromCode, deleteCharacter, toClipboard, buildName, setBuildName }}
+        >
             {props.children}
         </SavedCharacterContext.Provider>
     );

@@ -5,6 +5,8 @@ import { SkillIcon } from "./SkillIcon";
 import { useCharacterStore } from "./CharacterStoreProvider";
 import { produce } from "solid-js/store";
 
+import rocktexture from "../../assets/rocktexture.png";
+
 const createArrows = (arrowCanvas: HTMLCanvasElement, tabContent: HTMLDivElement, skillsInTab: SkillResponse[]) => {
     if (!arrowCanvas) return;
     const ctx = arrowCanvas.getContext("2d");
@@ -57,7 +59,7 @@ const createArrows = (arrowCanvas: HTMLCanvasElement, tabContent: HTMLDivElement
         }
     }
     const durl = ctx.canvas.toDataURL();
-    tabContent.style.background = `url(${durl}), url("../assets/rocktexture.png")`;
+    tabContent.style.background = `url(${durl}), url("${rocktexture}")`;
     ctx.canvas.hidden = true;
 
     window.removeEventListener("resize", () => createArrows(arrowCanvas, tabContent, skillsInTab));

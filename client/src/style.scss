@@ -49,6 +49,11 @@ $median-colors: (
   color: $median-gold;
 }
 
+.nav {
+  --bs-nav-link-color: $median-light-gray;
+  --bs-nav-link-hover-color: $median-light-gray;
+}
+
 .skill-pt-button {
   padding: 0;
   border-radius: 0;
@@ -127,6 +132,23 @@ $median-colors: (
   border-left: 3px solid $median-medium-gray;
   border-right: 3px solid $median-light-gray;
   background-color: $median-dark-gray;
+}
+
+.attribute-tab-button {
+  background-color: $median-dark-red;
+}
+
+.attribute-tab-button:hover {
+  background-color: $median-light-red;
+  color: $median-light-gray;
+}
+
+.attribute-tab-button .nav {
+  color: inherit;
+}
+
+.attribute-tab-button .nav-link {
+  color: inherit;
 }
 
 .attribute-nav-header {
