@@ -111,13 +111,21 @@ export const RightContent: Component<RightContentProps> = ({ data }) => {
             (s) => s.name === skill.name,
             produce((s) => {
                 if (s.pointsAssigned > 0) {
-                    const r1 = character.skills.find((_s) => _s.reqSkill1 === s.name);
-                    const r2 = character.skills.find((_s) => _s.reqSkill2 === s.name);
-                    const r3 = character.skills.find((_s) => _s.reqSkill3 === s.name);
+                    const r1 = character.skills.filter((_s) => _s.reqSkill1 === s.name);
+                    const r2 = character.skills.filter((_s) => _s.reqSkill2 === s.name);
+                    const r3 = character.skills.filter((_s) => _s.reqSkill3 === s.name);
                     let canRemove = true;
-                    if (r1 && r1.pointsAssigned >= 1 && s.pointsAssigned === 1) canRemove = false;
-                    if (r2 && r2.pointsAssigned >= 1 && s.pointsAssigned === 1) canRemove = false;
-                    if (r3 && r3.pointsAssigned >= 1 && s.pointsAssigned === 1) canRemove = false;
+                    if (s.pointsAssigned === 1) {
+                        for (const k of r1) {
+                            if (k.pointsAssigned >= 1) canRemove = false;
+                        }
+                        for (const k of r2) {
+                            if (k.pointsAssigned >= 1) canRemove = false;
+                        }
+                        for (const k of r3) {
+                            if (k.pointsAssigned >= 1) canRemove = false;
+                        }
+                    }
                     if (!canRemove) return;
                     s.pointsAssigned -= 1;
                     setCharacter("skillPointsRemaining", (p) => p + 1);
