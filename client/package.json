@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
+    "@solidjs/meta": "^0.29.4",
     "@tanstack/solid-query": "^5.83.0",
     "bootstrap": "^5.3.3",
     "solid-bootstrap": "^1.0.21",
