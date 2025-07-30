@@ -23,8 +23,8 @@ const createConfig = (version: string) => {
         dc6Path: "",
         classNames: ClassNames,
         usedFiles: [] as string[],
-        imagesDir: `./images/${version}`
-    }
+        imagesDir: `./images/${version}`,
+    };
     o.binPath = `data/global/excel`;
     o.tblPath = `data/local/lng/eng`;
     o.dc6Path = `data/global/themes/classic_sigma/game/skills`;
@@ -36,14 +36,14 @@ const createConfig = (version: string) => {
         `${o.dc6Path}/tree-tabs.dc6`,
         `${o.tblPath}/patchstring.tbl`,
         `${o.tblPath}/expansionstring.tbl`,
-        `${o.tblPath}/string.tbl`
+        `${o.tblPath}/string.tbl`,
     ];
     for (const c of o.classNames) {
         o.usedFiles.push(`${o.dc6Path}/layout-${c}.dc6`);
-        o.usedFiles.push(`${o.dc6Path}/icons-${c}.dc6`)
+        o.usedFiles.push(`${o.dc6Path}/icons-${c}.dc6`);
     }
     return o;
-}
+};
 
 export type Config = ReturnType<typeof createConfig>;
 
@@ -52,7 +52,7 @@ const extractImg = async (dc6ParserExecPath: string, imPath: string, outPath: st
     logger.info(`Extracting images: ${imPath} to: ${outPath}`);
     const { stderr } = await exec(`${dc6ParserExecPath} -o ${outPath} ${imPath}`);
     if (stderr) logger.error(stderr);
-}
+};
 
 const loadDc6 = async (dc6ParserExecPath: string, dc6Path: string, imagesDir: string, classNames: ClassNames) => {
     for (const className of classNames) {
@@ -66,13 +66,13 @@ const loadDc6 = async (dc6ParserExecPath: string, dc6Path: string, imagesDir: st
 
     outPath = `${imagesDir}/socket`;
     await extractImg(dc6ParserExecPath, `${dc6Path}/socket.dc6`, outPath);
-}
+};
 
 const collectMpqs = async (dir: string) => {
     const mpqs: string[] = [];
     for await (const p of fs.glob(`${dir}/medianxl-*.mpq`)) mpqs.push(p);
     return mpqs;
-}
+};
 
 const extractPathsFromMpqs = async (extractedMpqDataDir: string, mpqs: string[], paths: string[]) => {
     for (const mpqPath of mpqs) {
@@ -80,28 +80,28 @@ const extractPathsFromMpqs = async (extractedMpqDataDir: string, mpqs: string[],
         for (const p of paths) {
             const f = await mpqfile.extract(p);
             if (f !== null) {
-                await fs.mkdir(path.dirname(`${extractedMpqDataDir}/${p}`), {recursive: true});
+                await fs.mkdir(path.dirname(`${extractedMpqDataDir}/${p}`), { recursive: true });
                 await fs.writeFile(`${extractedMpqDataDir}/${p}`, f);
             }
         }
         mpqfile.close();
     }
-}
+};
 
-const getMedianManifest = async (): Promise<MedianManifest | null> => {
+export const getMedianManifest = async (): Promise<MedianManifest | null> => {
     const res = await fetch("https://launcher.median-xl.com/mxl/release/public/manifest");
     if (!res.ok) {
         logger.error(`Unable to fetch median manifest, code: ${res.status}, status: ${res.statusText}`);
         return null;
     }
     return await res.json();
-}
+};
 
 const checkForUpdate = async (manifestsDir: string) => {
     const manifest = await getMedianManifest();
     let needsUpdate = false;
     if (manifest !== null) {
-        await fs.mkdir(manifestsDir, {recursive: true});
+        await fs.mkdir(manifestsDir, { recursive: true });
         if (fssync.existsSync(`${manifestsDir}/latest`)) {
             const latest: MedianManifest = JSON.parse(await fs.readFile(`${manifestsDir}/latest`, "utf-8"));
             if (latest.tag !== manifest.tag) {
@@ -115,12 +115,12 @@ const checkForUpdate = async (manifestsDir: string) => {
         await fs.writeFile(`${manifestsDir}/${manifest.tag}`, JSON.stringify(manifest));
     }
     return needsUpdate;
-}
+};
 
 const getLatestManifest = async (manifestsDir: string) => {
     const latest: MedianManifest = JSON.parse(await fs.readFile(`${manifestsDir}/latest`, "utf-8"));
     return latest;
-}
+};
 
 const downloadMedianFiles = async (manifest: MedianManifest, outDir: string) => {
     for (const entry of manifest.files) {
@@ -132,10 +132,10 @@ const downloadMedianFiles = async (manifest: MedianManifest, outDir: string) => 
             continue;
         }
         const data = await res.bytes();
-        await fs.mkdir(outDir, {recursive: true});
+        await fs.mkdir(outDir, { recursive: true });
         await fs.writeFile(`${outDir}/${entry.name}`, data);
     }
-}
+};
 
 const setup = async () => {
     logger.info("Checking for updates...");
@@ -149,7 +149,6 @@ const setup = async () => {
         await downloadMedianFiles(latestManifest, config.mpqDir);
     } else logger.info("No update needed");
 
-
     logger.info("Extracting data from mpqs");
     const mpqs = await collectMpqs(config.mpqDir);
     await extractPathsFromMpqs(config.extractedMpqDataDir, mpqs, config.usedFiles);
@@ -161,6 +160,6 @@ const setup = async () => {
     const dataManager = await DataManager.init(`${config.extractedMpqDataDir}/${config.binPath}`, `${config.extractedMpqDataDir}/${config.tblPath}`);
 
     return { dataManager, config };
-}
+};
 
 export default setup;

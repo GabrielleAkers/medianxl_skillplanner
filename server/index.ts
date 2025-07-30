@@ -3,7 +3,7 @@ import * as fs from "fs/promises";
 
 import { ClassName, ClassNames, SkillTreeResponse } from "@/shared/types";
 import logger from "./src/lib/logger";
-import setup, { Config } from "./src/serversetup";
+import setup, { Config, getMedianManifest } from "./src/serversetup";
 
 import express, { NextFunction, Response } from "express";
 import path from "path";
@@ -44,6 +44,17 @@ const createServer = async () => {
     }
 
     app.get("/skilltree/:class", async (req, res) => {
+        try {
+            const medianmanifest = await getMedianManifest();
+            if (medianmanifest && medianmanifest.tag !== config.version) {
+                const s = await setup();
+                dataManager = s.dataManager;
+                config = s.config;
+            }
+        } catch (err) {
+            logger.error(err);
+        }
+
         const className = req.params.class;
         if (!ClassNames.includes(className as ClassName)) return res.status(400).send(`Invalid class must be one of: ${ClassNames.join(",")}`);
 
