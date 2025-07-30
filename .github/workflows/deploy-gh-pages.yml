@@ -34,6 +34,7 @@ jobs:
           npm run build
           mv ./dist/assets ./_site
           mv ./dist/index.html ./_site
+          mv ./_site ..
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
   deploy:
