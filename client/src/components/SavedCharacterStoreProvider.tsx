@@ -103,6 +103,7 @@ export const SavedCharacterStoreProvider = (props: ParentProps) => {
         if (!Object.hasOwn(savedCharacters, name)) return null;
         const character = JSON.parse(atob(savedCharacters[name].data));
         if (isCharacter(character)) return character;
+
         return null;
     };
 

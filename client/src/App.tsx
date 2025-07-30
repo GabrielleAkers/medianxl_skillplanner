@@ -24,6 +24,7 @@ const App: Component = () => {
         queryKey: ["skilltree", character.class],
         queryFn: async () => {
             if (character.class === "NONE") return {};
+            const c = character.class;
             const r = await fetch(`https://${import.meta.env.VITE_HOSTNAME}/skilltree/${character.class.slice(0, 3).toLowerCase()}`);
             if (!r.ok) throw new Error("Network error");
             return r.json();
@@ -59,8 +60,50 @@ const App: Component = () => {
                         fallback={
                             <Container class="ms-0 p-4">
                                 <div class="pe-4 align-middle" style={{ width: "100%", height: "inherited" }}>
+                                    <div class="median-gold diablo-font align-middle p-4" style={{ "font-size": "32px" }}>
+                                        <div class="text-center">Create New Build</div>
+                                        <Container fluid>
+                                            <Row>
+                                                <Col class="p-0 d-flex justify-content-center">
+                                                    <div>
+                                                        <Form.Control
+                                                            placeholder="Enter build name"
+                                                            value={characterSaver.buildName() ?? ""}
+                                                            onChange={(e) => {
+                                                                characterSaver.setBuildName(e.currentTarget.value);
+                                                            }}
+                                                        />
+                                                    </div>
+                                                    <div>
+                                                        <Form.Select
+                                                            value={selectedClass()}
+                                                            onChange={(e) => {
+                                                                if (!e || e.currentTarget.value === "NONE") return;
+                                                                setSelectedClass(e.currentTarget.value as ClassName);
+                                                            }}
+                                                        >
+                                                            {ClassNames.map((n) => (
+                                                                <option value={n}>{n}</option>
+                                                            ))}
+                                                        </Form.Select>
+                                                    </div>
+                                                </Col>
+                                            </Row>
+                                        </Container>
+                                        <div class="d-flex justify-content-center p-2">
+                                            <Button
+                                                class="median-button"
+                                                onClick={(e) => {
+                                                    if (!characterSaver.buildName() || !selectedClass() || selectedClass() === "NONE") return;
+                                                    setCharacter("class", selectedClass());
+                                                }}
+                                            >
+                                                Create
+                                            </Button>
+                                        </div>
+                                    </div>
                                     {characterSaver.characters.length > 0 ? (
-                                        <ListGroup style={{ "overflow-y": "auto", "max-height": "70vh" }} class="load-build-list">
+                                        <ListGroup style={{ "overflow-y": "auto", "max-height": "50vh" }} class="load-build-list">
                                             {characterSaver.characters.map((c) => (
                                                 <ListGroup.Item class="p-0 load-build-list-item">
                                                     <Container fluid>
@@ -91,51 +134,7 @@ const App: Component = () => {
                                                 </ListGroup.Item>
                                             ))}
                                         </ListGroup>
-                                    ) : (
-                                        <div class="median-gold diablo-font align-middle p-4" style={{ "font-size": "32px" }}>
-                                            <div class="text-center">Create New Build</div>
-                                            <Container fluid>
-                                                <Row>
-                                                    <Col class="p-0 d-flex justify-content-center">
-                                                        <div>
-                                                            <Form.Control
-                                                                placeholder="Enter build name"
-                                                                value={characterSaver.buildName() ?? ""}
-                                                                onChange={(e) => {
-                                                                    characterSaver.setBuildName(e.currentTarget.value);
-                                                                }}
-                                                            />
-                                                        </div>
-                                                        <div>
-                                                            <Form.Select
-                                                                value={selectedClass()}
-                                                                onChange={(e) => {
-                                                                    if (!e || e.currentTarget.value === "NONE") return;
-                                                                    setSelectedClass(e.currentTarget.value as ClassName);
-                                                                }}
-                                                            >
-                                                                {ClassNames.map((n) => (
-                                                                    <option value={n}>{n}</option>
-                                                                ))}
-                                                            </Form.Select>
-                                                        </div>
-                                                    </Col>
-                                                </Row>
-                                            </Container>
-                                            <div class="d-flex justify-content-center p-2">
-                                                <Button
-                                                    class="median-button"
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        if (!characterSaver.buildName() || !selectedClass() || selectedClass() === "NONE") return;
-                                                        setCharacter("class", selectedClass());
-                                                    }}
-                                                >
-                                                    Create
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    )}
+                                    ) : null}
                                     <div class="median-gold diablo-font align-middle p-4" style={{ "font-size": "32px" }}>
                                         <div class="text-center">Load From Code</div>
                                         <Container fluid>
@@ -146,7 +145,6 @@ const App: Component = () => {
                                                             placeholder="Enter build code"
                                                             value={buildCode()}
                                                             onChange={(e) => {
-                                                                e.preventDefault();
                                                                 setBuildCode(e.currentTarget.value);
                                                             }}
                                                         />
@@ -159,7 +157,6 @@ const App: Component = () => {
                                             <Button
                                                 class="median-button"
                                                 onClick={(e) => {
-                                                    e.preventDefault();
                                                     if (!buildCode()) return;
                                                     const loaded = characterSaver.loadCharacterFromCode(buildCode());
                                                     if (loaded) {
@@ -177,7 +174,7 @@ const App: Component = () => {
                             </Container>
                         }
                     >
-                        <ErrorBoundary fallback={<div class="container-fluid text-center">Broken 😢</div>}>
+                        <ErrorBoundary fallback={(e) => <div class="container-fluid text-center">Broken 😢 {e.message}</div>}>
                             <Suspense
                                 fallback={
                                     <div class="d-flex justify-content-center">

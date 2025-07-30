@@ -1,10 +1,10 @@
 import { Button, Col, Container, Form, ListGroup, Nav, Row, Tab } from "solid-bootstrap";
-import { Component, createSignal } from "solid-js";
-import { INITIAL_CHARACTER, useCharacterStore } from "./CharacterStoreProvider";
+import { Component, createEffect, createSignal } from "solid-js";
+import { Character, INITIAL_CHARACTER, useCharacterStore } from "./CharacterStoreProvider";
 import { Attribute, ClassName } from "../App";
 import { useSavedCharacters } from "./SavedCharacterStoreProvider";
 
-const TabOpts = ["Edit Attributes", "Save Build", "Load Build"] as const;
+const TabOpts = ["Edit Attributes", "Save Build"] as const;
 type TabOpt = (typeof TabOpts)[number];
 
 type AttributeEditorProps = { attributeName: Attribute };
@@ -121,7 +121,7 @@ export const LeftContent: Component<LeftContentProps> = ({}) => {
                                         }
                                     }}
                                 >
-                                    New Build
+                                    Load/New Build
                                 </Nav.Link>
                             </Nav.Item>
                         </Nav>
@@ -178,7 +178,6 @@ export const LeftContent: Component<LeftContentProps> = ({}) => {
                                                         <Button
                                                             class="median-button"
                                                             onClick={(e) => {
-                                                                e.preventDefault();
                                                                 if (!characterSaver.buildName()) return;
                                                                 characterSaver.saveCharacter(
                                                                     characterSaver.buildName(),
@@ -204,77 +203,6 @@ export const LeftContent: Component<LeftContentProps> = ({}) => {
                                             </div>
                                         </Col>
                                     </Row>
-                                </Container>
-                            </Tab.Pane>
-                            <Tab.Pane eventKey="Load Build" style={{ height: "100%" }}>
-                                <Container class="ms-0 p-4">
-                                    <div class="pe-4 align-middle" style={{ width: "100%", height: "inherited" }}>
-                                        {characterSaver.characters.length > 0 ? (
-                                            <ListGroup style={{ "overflow-y": "auto", "max-height": "70vh" }} class="load-build-list">
-                                                {characterSaver.characters.map((c) => (
-                                                    <ListGroup.Item class="p-0 load-build-list-item">
-                                                        <Container fluid>
-                                                            <Row class="p-0">
-                                                                <Col class="text-center diablo-font median-gold" style={{ "font-size": "25px" }}>
-                                                                    {c.name}
-                                                                </Col>
-                                                                <Col class="text-center diablo-font median-gold" style={{ "font-size": "25px" }}>
-                                                                    {c.class}
-                                                                </Col>
-                                                                <Col class="align-middle justify-content-center d-flex">
-                                                                    <Button
-                                                                        class="m-0 me-1 median-button"
-                                                                        onClick={() => {
-                                                                            const loadedCharacter = characterSaver.loadCharacter(c.name);
-                                                                            characterSaver.setBuildName(c.name);
-                                                                            setCharacter(loadedCharacter);
-                                                                        }}
-                                                                    >
-                                                                        Load
-                                                                    </Button>
-                                                                    <Button
-                                                                        class="m-0 ms-1 median-button"
-                                                                        onClick={() => characterSaver.deleteCharacter(c.name)}
-                                                                    >
-                                                                        Delete
-                                                                    </Button>
-                                                                </Col>
-                                                            </Row>
-                                                        </Container>
-                                                    </ListGroup.Item>
-                                                ))}
-                                            </ListGroup>
-                                        ) : (
-                                            <div class="text-center diablo-font median-gold">No Saved Builds</div>
-                                        )}
-                                        <div class="median-gold diablo-font align-middle p-4" style={{ "font-size": "32px" }}>
-                                            <div class="text-center">Load From Code</div>
-                                            <Form.Control
-                                                placeholder="Enter build code"
-                                                value={buildCode() ?? ""}
-                                                onChange={(e) => {
-                                                    setBuildCode(e.currentTarget.value);
-                                                }}
-                                            />
-                                            <div class="d-flex justify-content-center p-2">
-                                                <Button
-                                                    class="median-button"
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        if (!buildCode()) return;
-                                                        const loaded = characterSaver.loadCharacterFromCode(buildCode());
-                                                        if (loaded) {
-                                                            setCharacter(loaded);
-                                                            console.log("loaded from code");
-                                                        }
-                                                        setBuildCode(null);
-                                                    }}
-                                                >
-                                                    Load
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </Container>
                             </Tab.Pane>
                         </Tab.Content>
