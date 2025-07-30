@@ -36,22 +36,6 @@ const AttributeEditor: Component<AttributeEditorProps> = ({ attributeName }) => 
                         <Button
                             class="skill-pt-button p-0 m-0"
                             style={{ "min-width": "30%" }}
-                            id={`attribute-${attributeName}-increment`}
-                            onClick={(e) => {
-                                if (e.shiftKey) {
-                                    return increment(100);
-                                }
-                                increment(1);
-                            }}
-                        >
-                            +
-                        </Button>
-                        <div class="diablo-font median-icon-point-tracker-border p-0" style={{ "min-width": "40%", color: "white" }}>
-                            {character.attributes[attributeName]}
-                        </div>
-                        <Button
-                            class="skill-pt-button p-0 m-0"
-                            style={{ "min-width": "30%" }}
                             id={`attribute-${attributeName}-decrement`}
                             onClick={(e) => {
                                 if (e.shiftKey) {
@@ -61,6 +45,22 @@ const AttributeEditor: Component<AttributeEditorProps> = ({ attributeName }) => 
                             }}
                         >
                             -
+                        </Button>
+                        <div class="diablo-font median-icon-point-tracker-border p-0" style={{ "min-width": "40%", color: "white" }}>
+                            {character.attributes[attributeName]}
+                        </div>
+                        <Button
+                            class="skill-pt-button p-0 m-0"
+                            style={{ "min-width": "30%" }}
+                            id={`attribute-${attributeName}-increment`}
+                            onClick={(e) => {
+                                if (e.shiftKey) {
+                                    return increment(100);
+                                }
+                                increment(1);
+                            }}
+                        >
+                            +
                         </Button>
                     </div>
                 </div>
@@ -156,6 +156,17 @@ export const LeftContent: Component<LeftContentProps> = ({}) => {
                                         </Col>
                                         <Col class="flex-grow-1 p-4">
                                             <AttributeEditor attributeName="Vitality" />
+                                        </Col>
+                                    </Row>
+                                    <Row class="d-flex flex-row text-center" style={{ height: "20%" }}>
+                                        <Col class="flex-grow-1 p-4">
+                                            <div>
+                                                <div class="align-middle position-relative" style={{ "z-index": -1 }}>
+                                                    <div class="median-gold diablo-font" style={{ "font-size": "20px" }}>
+                                                        <div>Hold shift to assign 100 at a time</div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </Col>
                                     </Row>
                                 </Container>

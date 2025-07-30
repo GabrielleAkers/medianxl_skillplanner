@@ -27,10 +27,10 @@ export const SkillIcon: Component<SkillIconProps> = ({ skill, increment, decreme
                             <Button
                                 class="skill-pt-button p-0 m-0"
                                 style={{ "min-width": "30%" }}
-                                id={`skill-icon-${skill.name}-increment`}
-                                onClick={increment}
+                                id={`skill-icon-${skill.name}-decrement`}
+                                onClick={decrement}
                             >
-                                +
+                                -
                             </Button>
                             <div class="diablo-font median-icon-point-tracker-border p-0" style={{ "min-width": "40%", color: "white" }}>
                                 {pointsAssigned()}
@@ -38,10 +38,10 @@ export const SkillIcon: Component<SkillIconProps> = ({ skill, increment, decreme
                             <Button
                                 class="skill-pt-button p-0 m-0"
                                 style={{ "min-width": "30%" }}
-                                id={`skill-icon-${skill.name}-decrement`}
-                                onClick={decrement}
+                                id={`skill-icon-${skill.name}-increment`}
+                                onClick={increment}
                             >
-                                -
+                                +
                             </Button>
                         </div>
                     </div>
