@@ -48,8 +48,9 @@ const createServer = async () => {
         if (!ClassNames.includes(className as ClassName)) return res.status(400).send(`Invalid class must be one of: ${ClassNames.join(",")}`);
 
         const response: SkillTreeResponse = {
+            version: config.version,
             skills: [],
-            skillTabs: dataManager.getSkillTabs(className as ClassName)
+            skillTabs: dataManager.getSkillTabs(className as ClassName),
         };
         const skills = dataManager.getSkills(className);
         for (const skill of skills) {
@@ -58,9 +59,9 @@ const createServer = async () => {
             if (!fssync.existsSync(filename) || !fssync.lstatSync(filename).isFile()) {
                 logger.warn(`File not found: ${filename}`);
                 continue;
-            };
+            }
             const img = await fs.readFile(filename);
-            response.skills.push({...skill, b64IconBlob: bufferTob64(img)});
+            response.skills.push({ ...skill, b64IconBlob: bufferTob64(img) });
         }
         res.send(response);
     });
@@ -100,6 +101,6 @@ const createServer = async () => {
     // });
 
     app.listen(port, "0.0.0.0", () => logger.info("Listening..."));
-}
+};
 
 createServer();

@@ -1,3 +1,5 @@
+@use "sass:color";
+
 *,
 *::before,
 *::after {
@@ -17,59 +19,226 @@
     font-family: "Exocet", sans-serif !important;
 }
 
-:root {
-  --median-light-red: #3e1c10;
-  --median-dark-red: #1d0801;
-  --median-light-gray: #6b6b6b;
-  --median-dark-gray: #2b2b2b;
-  --median-gold: #dfb679;
+$median-light-red: #3e1c10;
+$median-dark-red: #1d0801;
+$median-light-gray: #6b6b6b;
+$median-dark-gray: #2b2b2b;
+$median-medium-gray: #434141;
+$median-gold: #dfb679;
+$median-button-red: #87260f;
+$median-bronze: #a59164;
+
+$median-colors: (
+  median-light-red: $median-light-red,
+  median-dark-red: $median-dark-red,
+  median-light-gray: $median-light-gray,
+  median-dark-gray: $median-dark-gray,
+  median-medium-gray: $median-medium-gray,
+  median-gold: $median-gold,
+  median-button-red: $median-button-red,
+  median-bronze: $median-bronze
+);
+
+@each $median-color, $value in $median-colors {
+  [class*="#{$median-color}"] {
+    color: $value;
+  }
 }
 
 .skill-icon {
-  color: var(--median-gold);
+  color: $median-gold;
+}
+
+.skill-pt-button {
+  padding: 0;
+  border-radius: 0;
+  background-color: $median-button-red;
+  border-left: 3px solid $median-bronze;
+  border-right: 3px solid $median-bronze;
+  border-top: 1px solid $median-bronze;
+  border-bottom: 1px solid $median-bronze;
+}
+
+.skill-pt-button:hover {
+  border-left: 3px solid $median-bronze;
+  border-right: 3px solid $median-bronze;
+  border-top: 1px solid $median-bronze;
+  border-bottom: 1px solid $median-bronze;
+  background-color: color.adjust($median-button-red, $lightness: 10%);
+}
+
+.skill-pt-button:active {
+  border-left: 3px solid $median-bronze !important;
+  border-right: 3px solid $median-bronze !important;
+  border-top: 1px solid $median-bronze !important;
+  border-bottom: 1px solid $median-bronze !important;
+  background-color: color.adjust($median-button-red, $lightness: -10%) !important;
 }
 
 .tab-content {
-  background-color: var(--median-light-red) !important;
+  background-color: $median-light-red !important;
   height: 100%;
 }
 
-.median-content-border {
-  border-top: 5px solid var(--median-light-gray);
-  border-left: 5px solid var(--median-light-gray);
-  border-bottom: 5px solid var(--median-light-gray);
+.median-left-content-border {
+  border-top: 5px solid $median-light-gray;
+  border-right: 5px solid $median-light-gray;
+  border-bottom: 5px solid $median-light-gray;
+  background-blend-mode: multiply;
+  background-image: url("../assets/rocktexture.png");
 }
 
-.median-border {
-  border-left: 5px solid var(--median-light-gray);
+.median-version {
+  border-left: 5px solid $median-light-gray;
+  border-top: 5px solid $median-light-gray;
+  border-right: 5px solid $median-light-gray;
+  border-radius: 12px 0 0 0;
+  background-color: $median-light-red;
 }
 
-.nav-pills {
-  --bs-nav-pills-border-radius: 0 12px 12px 0;
-  --bs-nav-pills-link-active-color: var(--median-gold);
-  --bs-nav-pills-link-active-bg: var(--median-light-red);
-  --bs-nav-link-hover-color: var(--median-dark-light-gray);
-  color: var(--median-light-gray);
+.median-right-content-border {
+  border-top: 5px solid $median-light-gray;
+  border-left: 5px solid $median-light-gray;
+  border-bottom: 5px solid $median-light-gray;
+  background-blend-mode: multiply;
 }
 
-.nav-pills .nav-link {
-  border: 5px solid var(--median-light-gray);
+.skill-tab-header {
+  border-left: 5px solid $median-light-gray;
+  border-top: 5px solid $median-light-gray;
+  border-right: 5px solid $median-light-gray;
+  border-radius: 0 12px 0 0;
+  background-color: $median-light-red;
+  background-blend-mode: multiply;
+  background-image: url("../assets/rocktexture.png");
 }
 
-.nav-pills .nav-link.active {
+.median-icon-image-border {
+  border-top: 5px solid $median-light-gray;
+  border-bottom: 5px solid $median-medium-gray;
+  border-left: 5px solid $median-medium-gray;
+  border-right: 5px solid $median-light-gray;
+  background-color: $median-dark-gray;
+}
+
+.median-icon-point-tracker-border {
+  border-top: 3px solid $median-light-gray;
+  border-bottom: 3px solid $median-medium-gray;
+  border-left: 3px solid $median-medium-gray;
+  border-right: 3px solid $median-light-gray;
+  background-color: $median-dark-gray;
+}
+
+.attribute-nav-header {
+  background-image: url("../assets/rocktexture.png");
+  background-blend-mode: multiply;
+}
+
+.attribute-tab-nav {
+  color: $median-light-gray;
+}
+
+.attribute-tab-nav .nav-link:hover {
+  color: $median-light-gray;
+}
+
+.attribute-tab-nav .nav-link {
+  border-left: 5px solid $median-light-gray;
+  border-bottom: 5px solid $median-light-gray;
+  border-right: 5px solid $median-light-gray;
+  border-top: 5px solid $median-dark-gray;
+  border-radius: 12px 0 0 12px;
+  background-image: url("../assets/rocktexture.png");
+  background-blend-mode: multiply;
+}
+
+.attribute-tab-nav .nav-link.active {
+  border-right: unset;
+  border-top: 5px solid $median-light-gray;
+  border-bottom: 5px solid $median-light-gray;
+  border-left: 5px solid $median-light-gray;
+  background-color: $median-light-red;
+  color: $median-gold;
+}
+
+.attribute-tab-nav a {
+  background-color: $median-dark-red;
+  color: inherit;
+}
+
+.skill-tab-nav {
+  color: $median-light-gray;
+}
+
+.skill-tab-nav .nav-link {
+  border-left: 5px solid $median-light-gray;
+  border-bottom: 5px solid $median-light-gray;
+  border-right: 5px solid $median-light-gray;
+  border-top: 5px solid $median-dark-gray;
+  border-radius: 0 12px 12px 0;
+  background-image: url("../assets/rocktexture.png");
+  background-blend-mode: multiply;
+}
+
+.skill-tab-nav .nav-link:hover {
+  color: $median-light-gray;
+}
+
+.skill-tab-nav .nav-link.active {
   border-left: unset;
-  border-top: 5px solid var(--median-light-gray);
-  border-bottom: 5px solid var(--median-light-gray);
-  border-right: 5px solid var(--median-light-gray);
+  border-top: 5px solid $median-light-gray;
+  border-bottom: 5px solid $median-light-gray;
+  border-right: 5px solid $median-light-gray;
+  background-color: $median-light-red;
+  color: $median-gold;
 }
 
-.nav-pills a {
-  background-color: var(--median-dark-red);
+.skill-tab-nav a {
+  background-color: $median-dark-red;
   color: inherit;
 }
 
 .arrow-canvas {
   transform: translateZ(1px);
+}
+
+.load-build-list {
+  border-radius: 0;
+  border-left: 5px solid $median-dark-gray;
+  border-bottom: 5px solid $median-dark-gray;
+  border-top: 5px solid $median-light-gray;
+  border-right: 5px solid $median-light-gray;
+}
+
+.load-build-list-item {
+  background-color: $median-medium-gray;
+  border: 1px solid $median-dark-gray;
+}
+
+.median-button {
+  padding: 2;
+  border-radius: 0;
+  background-color: $median-button-red;
+  border-left: 5px solid $median-bronze;
+  border-right: 5px solid $median-bronze;
+  border-top: 1px solid $median-bronze;
+  border-bottom: 1px solid $median-bronze;
+}
+
+.median-button:hover {
+  border-left: 5px solid $median-bronze;
+  border-right: 5px solid $median-bronze;
+  border-top: 1px solid $median-bronze;
+  border-bottom: 1px solid $median-bronze;
+  background-color: color.adjust($median-button-red, $lightness: 10%);
+}
+
+.median-button:active {
+  border-left: 5px solid $median-bronze !important;
+  border-right: 5px solid $median-bronze !important;
+  border-top: 1px solid $median-bronze !important;
+  border-bottom: 1px solid $median-bronze !important;
+  background-color: color.adjust($median-button-red, $lightness: -10%) !important;
 }
 
 body {

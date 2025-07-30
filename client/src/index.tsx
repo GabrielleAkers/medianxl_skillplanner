@@ -7,6 +7,8 @@ import "./style.scss";
 
 import App from "./App";
 import { QueryClient, QueryClientProvider } from "@tanstack/solid-query";
+import { CharacterStoreProvider } from "./components/CharacterStoreProvider";
+import { SavedCharacterStoreProvider } from "./components/SavedCharacterStoreProvider";
 
 const root = document.getElementById("root");
 
@@ -19,7 +21,11 @@ const client = new QueryClient();
 render(
     () => (
         <QueryClientProvider client={client}>
-            <App />
+            <CharacterStoreProvider>
+                <SavedCharacterStoreProvider>
+                    <App />
+                </SavedCharacterStoreProvider>
+            </CharacterStoreProvider>
         </QueryClientProvider>
     ),
     root!
