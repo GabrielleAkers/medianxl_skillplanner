@@ -50,7 +50,7 @@ const AttributeEditor: Component<AttributeEditorProps> = ({ attributeName }) => 
                             {character.attributes[attributeName]}
                         </div>
                         <Button
-                            class="skill-pt-button p-0 m-0"
+                            class={`skill-pt-button p-0 m-0`}
                             style={{ "min-width": "30%" }}
                             id={`attribute-${attributeName}-increment`}
                             onClick={(e) => {

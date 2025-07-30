@@ -1,24 +1,5 @@
 @use "sass:color";
 
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-}
-
-* {
-  margin: 0;
-}
-
-@font-face {
-    font-family: "Exocet";
-    src: url("../assets/exocet.ttf");
-}
-
-.diablo-font {
-    font-family: "Exocet", sans-serif !important;
-}
-
 $median-light-red: #3e1c10;
 $median-dark-red: #1d0801;
 $median-light-gray: #6b6b6b;
@@ -29,278 +10,305 @@ $median-button-red: #87260f;
 $median-bronze: #a59164;
 
 $median-colors: (
-  median-light-red: $median-light-red,
-  median-dark-red: $median-dark-red,
-  median-light-gray: $median-light-gray,
-  median-dark-gray: $median-dark-gray,
-  median-medium-gray: $median-medium-gray,
-  median-gold: $median-gold,
-  median-button-red: $median-button-red,
-  median-bronze: $median-bronze
+    median-light-red: $median-light-red,
+    median-dark-red: $median-dark-red,
+    median-light-gray: $median-light-gray,
+    median-dark-gray: $median-dark-gray,
+    median-medium-gray: $median-medium-gray,
+    median-gold: $median-gold,
+    median-button-red: $median-button-red,
+    median-bronze: $median-bronze,
 );
 
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+}
+
+@font-face {
+    font-family: "Exocet";
+    src: url("../assets/exocet.ttf");
+}
+
+.diablo-font {
+    font-family: "Exocet", sans-serif !important;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+.inactive {
+    background-color: $median-dark-gray !important;
+    border-left: 3px solid $median-light-gray !important;
+    border-right: 3px solid $median-light-gray !important;
+    border-top: 1px solid $median-light-gray !important;
+    border-bottom: 1px solid $median-light-gray !important;
+}
+
 @each $median-color, $value in $median-colors {
-  [class*="#{$median-color}"] {
-    color: $value;
-  }
+    [class*="#{$median-color}"] {
+        color: $value;
+    }
 }
 
 .skill-icon {
-  color: $median-gold;
+    color: $median-gold;
 }
 
 .nav {
-  --bs-nav-link-color: $median-light-gray;
-  --bs-nav-link-hover-color: $median-light-gray;
+    --bs-nav-link-color: $median-light-gray;
+    --bs-nav-link-hover-color: $median-light-gray;
 }
 
 .skill-pt-button {
-  padding: 0;
-  border-radius: 0;
-  background-color: $median-button-red;
-  border-left: 3px solid $median-bronze;
-  border-right: 3px solid $median-bronze;
-  border-top: 1px solid $median-bronze;
-  border-bottom: 1px solid $median-bronze;
+    padding: 0;
+    border-radius: 0;
+    background-color: $median-button-red;
+    border-left: 3px solid $median-bronze;
+    border-right: 3px solid $median-bronze;
+    border-top: 1px solid $median-bronze;
+    border-bottom: 1px solid $median-bronze;
 }
 
 .skill-pt-button:hover {
-  border-left: 3px solid $median-bronze;
-  border-right: 3px solid $median-bronze;
-  border-top: 1px solid $median-bronze;
-  border-bottom: 1px solid $median-bronze;
-  background-color: color.adjust($median-button-red, $lightness: 10%);
+    border-left: 3px solid $median-bronze;
+    border-right: 3px solid $median-bronze;
+    border-top: 1px solid $median-bronze;
+    border-bottom: 1px solid $median-bronze;
+    background-color: color.adjust($median-button-red, $lightness: 10%);
 }
 
 .skill-pt-button:active {
-  border-left: 3px solid $median-bronze !important;
-  border-right: 3px solid $median-bronze !important;
-  border-top: 1px solid $median-bronze !important;
-  border-bottom: 1px solid $median-bronze !important;
-  background-color: color.adjust($median-button-red, $lightness: -10%) !important;
+    border-left: 3px solid $median-bronze !important;
+    border-right: 3px solid $median-bronze !important;
+    border-top: 1px solid $median-bronze !important;
+    border-bottom: 1px solid $median-bronze !important;
+    background-color: color.adjust($median-button-red, $lightness: -10%) !important;
 }
 
 .tab-content {
-  background-color: $median-light-red !important;
-  height: 100%;
+    background-color: $median-light-red !important;
+    height: 100%;
 }
 
 .median-left-content-border {
-  border-top: 5px solid $median-light-gray;
-  border-right: 5px solid $median-light-gray;
-  border-bottom: 5px solid $median-light-gray;
-  background-blend-mode: multiply;
-  background-image: url("../assets/rocktexture.png");
+    border-top: 5px solid $median-light-gray;
+    border-right: 5px solid $median-light-gray;
+    border-bottom: 5px solid $median-light-gray;
+    background-blend-mode: multiply;
+    background-image: url("../assets/rocktexture.png");
 }
 
 .median-version {
-  border-left: 5px solid $median-light-gray;
-  border-top: 5px solid $median-light-gray;
-  border-right: 5px solid $median-light-gray;
-  border-radius: 12px 0 0 0;
-  background-color: $median-light-red;
+    border-left: 5px solid $median-light-gray;
+    border-top: 5px solid $median-light-gray;
+    border-right: 5px solid $median-light-gray;
+    border-radius: 12px 0 0 0;
+    background-color: $median-light-red;
 }
 
 .median-right-content-border {
-  border-top: 5px solid $median-light-gray;
-  border-left: 5px solid $median-light-gray;
-  border-bottom: 5px solid $median-light-gray;
-  background-blend-mode: multiply;
+    border-top: 5px solid $median-light-gray;
+    border-left: 5px solid $median-light-gray;
+    border-bottom: 5px solid $median-light-gray;
+    background-blend-mode: multiply;
 }
 
 .skill-tab-header {
-  border-left: 5px solid $median-light-gray;
-  border-top: 5px solid $median-light-gray;
-  border-right: 5px solid $median-light-gray;
-  border-radius: 0 12px 0 0;
-  background-color: $median-light-red;
-  background-blend-mode: multiply;
-  background-image: url("../assets/rocktexture.png");
+    border-left: 5px solid $median-light-gray;
+    border-top: 5px solid $median-light-gray;
+    border-right: 5px solid $median-light-gray;
+    border-radius: 0 12px 0 0;
+    background-color: $median-light-red;
+    background-blend-mode: multiply;
+    background-image: url("../assets/rocktexture.png");
 }
 
 .median-icon-image-border {
-  border-top: 5px solid $median-light-gray;
-  border-bottom: 5px solid $median-medium-gray;
-  border-left: 5px solid $median-medium-gray;
-  border-right: 5px solid $median-light-gray;
-  background-color: $median-dark-gray;
+    border-top: 5px solid $median-light-gray;
+    border-bottom: 5px solid $median-medium-gray;
+    border-left: 5px solid $median-medium-gray;
+    border-right: 5px solid $median-light-gray;
+    background-color: $median-dark-gray;
 }
 
 .median-icon-point-tracker-border {
-  border-top: 3px solid $median-light-gray;
-  border-bottom: 3px solid $median-medium-gray;
-  border-left: 3px solid $median-medium-gray;
-  border-right: 3px solid $median-light-gray;
-  background-color: $median-dark-gray;
+    border-top: 3px solid $median-light-gray;
+    border-bottom: 3px solid $median-medium-gray;
+    border-left: 3px solid $median-medium-gray;
+    border-right: 3px solid $median-light-gray;
+    background-color: $median-dark-gray;
 }
 
 .attribute-tab-button {
-  background-color: $median-dark-red;
+    background-color: $median-dark-red;
 }
 
 .attribute-tab-button:hover {
-  background-color: $median-light-red;
-  color: $median-light-gray;
+    background-color: $median-light-red;
+    color: $median-light-gray;
 }
 
 .attribute-tab-button .nav {
-  color: inherit;
+    color: inherit;
 }
 
 .attribute-tab-button .nav-link {
-  color: inherit;
+    color: inherit;
 }
 
 .attribute-nav-header {
-  background-image: url("../assets/rocktexture.png");
-  background-blend-mode: multiply;
+    background-image: url("../assets/rocktexture.png");
+    background-blend-mode: multiply;
 }
 
 .attribute-tab-nav {
-  color: $median-light-gray;
+    color: $median-light-gray;
 }
 
 .attribute-tab-nav .nav-link:hover {
-  color: $median-light-gray;
+    color: $median-light-gray;
 }
 
 .attribute-tab-nav .nav-link {
-  border-left: 5px solid $median-light-gray;
-  border-bottom: 5px solid $median-light-gray;
-  border-right: 5px solid $median-light-gray;
-  border-top: 5px solid $median-dark-gray;
-  border-radius: 12px 0 0 12px;
-  background-image: url("../assets/rocktexture.png");
-  background-blend-mode: multiply;
+    border-left: 5px solid $median-light-gray;
+    border-bottom: 5px solid $median-light-gray;
+    border-right: 5px solid $median-light-gray;
+    border-top: 5px solid $median-dark-gray;
+    border-radius: 12px 0 0 12px;
+    background-image: url("../assets/rocktexture.png");
+    background-blend-mode: multiply;
 }
 
 .attribute-tab-nav .nav-link.active {
-  border-right: unset;
-  border-top: 5px solid $median-light-gray;
-  border-bottom: 5px solid $median-light-gray;
-  border-left: 5px solid $median-light-gray;
-  background-color: $median-light-red;
-  color: $median-gold;
+    border-right: unset;
+    border-top: 5px solid $median-light-gray;
+    border-bottom: 5px solid $median-light-gray;
+    border-left: 5px solid $median-light-gray;
+    background-color: $median-light-red;
+    color: $median-gold;
 }
 
 .attribute-tab-nav a {
-  background-color: $median-dark-red;
-  color: inherit;
+    background-color: $median-dark-red;
+    color: inherit;
 }
 
 .skill-tab-nav {
-  color: $median-light-gray;
+    color: $median-light-gray;
 }
 
 .skill-tab-nav .nav-link {
-  border-left: 5px solid $median-light-gray;
-  border-bottom: 5px solid $median-light-gray;
-  border-right: 5px solid $median-light-gray;
-  border-top: 5px solid $median-dark-gray;
-  border-radius: 0 12px 12px 0;
-  background-image: url("../assets/rocktexture.png");
-  background-blend-mode: multiply;
+    border-left: 5px solid $median-light-gray;
+    border-bottom: 5px solid $median-light-gray;
+    border-right: 5px solid $median-light-gray;
+    border-top: 5px solid $median-dark-gray;
+    border-radius: 0 12px 12px 0;
+    background-image: url("../assets/rocktexture.png");
+    background-blend-mode: multiply;
 }
 
 .skill-tab-nav .nav-link:hover {
-  color: $median-light-gray;
+    color: $median-light-gray;
 }
 
 .skill-tab-nav .nav-link.active {
-  border-left: unset;
-  border-top: 5px solid $median-light-gray;
-  border-bottom: 5px solid $median-light-gray;
-  border-right: 5px solid $median-light-gray;
-  background-color: $median-light-red;
-  color: $median-gold;
+    border-left: unset;
+    border-top: 5px solid $median-light-gray;
+    border-bottom: 5px solid $median-light-gray;
+    border-right: 5px solid $median-light-gray;
+    background-color: $median-light-red;
+    color: $median-gold;
 }
 
 .skill-tab-nav a {
-  background-color: $median-dark-red;
-  color: inherit;
+    background-color: $median-dark-red;
+    color: inherit;
 }
 
 .arrow-canvas {
-  transform: translateZ(1px);
+    transform: translateZ(1px);
 }
 
 .load-build-list {
-  border-radius: 0;
-  border-left: 5px solid $median-dark-gray;
-  border-bottom: 5px solid $median-dark-gray;
-  border-top: 5px solid $median-light-gray;
-  border-right: 5px solid $median-light-gray;
+    border-radius: 0;
+    border-left: 5px solid $median-dark-gray;
+    border-bottom: 5px solid $median-dark-gray;
+    border-top: 5px solid $median-light-gray;
+    border-right: 5px solid $median-light-gray;
 }
 
 .load-build-list-item {
-  background-color: $median-medium-gray;
-  border: 1px solid $median-dark-gray;
+    background-color: $median-medium-gray;
+    border: 1px solid $median-dark-gray;
 }
 
 .median-button {
-  padding: 2;
-  border-radius: 0;
-  background-color: $median-button-red;
-  border-left: 5px solid $median-bronze;
-  border-right: 5px solid $median-bronze;
-  border-top: 1px solid $median-bronze;
-  border-bottom: 1px solid $median-bronze;
+    padding: 2;
+    border-radius: 0;
+    background-color: $median-button-red;
+    border-left: 5px solid $median-bronze;
+    border-right: 5px solid $median-bronze;
+    border-top: 1px solid $median-bronze;
+    border-bottom: 1px solid $median-bronze;
 }
 
 .median-button:hover {
-  border-left: 5px solid $median-bronze;
-  border-right: 5px solid $median-bronze;
-  border-top: 1px solid $median-bronze;
-  border-bottom: 1px solid $median-bronze;
-  background-color: color.adjust($median-button-red, $lightness: 10%);
+    border-left: 5px solid $median-bronze;
+    border-right: 5px solid $median-bronze;
+    border-top: 1px solid $median-bronze;
+    border-bottom: 1px solid $median-bronze;
+    background-color: color.adjust($median-button-red, $lightness: 10%);
 }
 
 .median-button:active {
-  border-left: 5px solid $median-bronze !important;
-  border-right: 5px solid $median-bronze !important;
-  border-top: 1px solid $median-bronze !important;
-  border-bottom: 1px solid $median-bronze !important;
-  background-color: color.adjust($median-button-red, $lightness: -10%) !important;
+    border-left: 5px solid $median-bronze !important;
+    border-right: 5px solid $median-bronze !important;
+    border-top: 1px solid $median-bronze !important;
+    border-bottom: 1px solid $median-bronze !important;
+    background-color: color.adjust($median-button-red, $lightness: -10%) !important;
 }
 
 body {
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  background-color: #202020;
-  overflow: hidden;
-  padding: 0;
-  margin: 0;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    background-color: #202020;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
 }
 
 body,
 div:first-child {
-  transform-style: preserve-3d !important;
+    transform-style: preserve-3d !important;
 }
 
 html {
-  overflow: hidden;
-  padding: 0;
-  margin: 0;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
 }
-
 
 img,
 picture,
 video,
 canvas,
 svg {
-  max-width: 100%;
-  max-height: 100vh;
+    max-width: 100%;
+    max-height: 100vh;
 }
-
 
 input,
 button,
 textarea,
 select {
-  font: inherit;
+    font: inherit;
 }
-
 
 p,
 h1,
@@ -309,11 +317,10 @@ h3,
 h4,
 h5,
 h6 {
-  overflow-wrap: break-word;
+    overflow-wrap: break-word;
 }
-
 
 #root,
 #__next {
-  isolation: isolate;
+    isolation: isolate;
 }
