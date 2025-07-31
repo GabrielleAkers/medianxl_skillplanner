@@ -17,18 +17,19 @@ const createArrows = (arrowCanvas: HTMLCanvasElement, tabContent: HTMLDivElement
     ctx.strokeStyle = "black";
     ctx.lineWidth = 10;
 
+    const hScale = 1.25;
     const w = tabContent.clientWidth;
     const h = tabContent.clientHeight;
     const cellW = w / 3;
     const cellH = h / 6;
     for (const s of skillsInTab) {
         const sx = cellW * s.column - cellW / 2;
-        const sy = cellH * s.row - cellH / 1.75;
+        const sy = cellH * s.row - cellH / hScale;
         if (s.reqSkill1 !== "") {
             const rs = skillsInTab.find((sk) => sk.name === s.reqSkill1);
             if (rs) {
                 const rsx = cellW * rs.column - cellW / 2;
-                const rsy = cellH * rs.row - cellH / 1.75;
+                const rsy = cellH * rs.row - cellH / hScale;
                 ctx.beginPath();
                 ctx.moveTo(rsx, rsy);
                 ctx.lineTo(sx, sy);
@@ -39,7 +40,7 @@ const createArrows = (arrowCanvas: HTMLCanvasElement, tabContent: HTMLDivElement
             const rs = skillsInTab.find((sk) => sk.name === s.reqSkill2);
             if (rs) {
                 const rsx = cellW * rs.column - cellW / 2;
-                const rsy = cellH * rs.row - cellH / 1.75;
+                const rsy = cellH * rs.row - cellH / hScale;
                 ctx.beginPath();
                 ctx.moveTo(rsx, rsy);
                 ctx.lineTo(sx, sy);
@@ -50,7 +51,7 @@ const createArrows = (arrowCanvas: HTMLCanvasElement, tabContent: HTMLDivElement
             const rs = skillsInTab.find((sk) => sk.name === s.reqSkill3);
             if (rs) {
                 const rsx = cellW * rs.column - cellW / 2;
-                const rsy = cellH * rs.row - cellH / 1.75;
+                const rsy = cellH * rs.row - cellH / hScale;
                 ctx.beginPath();
                 ctx.moveTo(rsx, rsy);
                 ctx.lineTo(sx, sy);
@@ -151,76 +152,67 @@ export const RightContent: Component<RightContentProps> = ({ data }) => {
                 }}
                 activeKey={selectedTab()}
             >
-                <Row class="flex-grow-1">
+                <Row class="flex-grow-1" style={{ height: "100%" }}>
                     <Col sm={9} class="p-0">
                         <Tab.Content class="median-right-content-border" id="skill-tree-content" ref={tabContent}>
-                            <div class="median-gold diablo-font text-center">{skillTabs()[selectedTab()].tabDesc.replace(/Ã¿c[0-9]/g, "")}</div>
-                            <div style={{ position: "relative", width: "100%", height: "100%" }}>
-                                <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}>
+                            <div style={{ width: "100%", height: "100%" }}>
+                                <div class="p-1" style={{ height: "95%" }}>
                                     {skillTabs().map((t) => (
-                                        <Tab.Pane eventKey={t.page} style={{ height: "100%" }}>
-                                            <Container
-                                                fluid
-                                                class="pb-4"
-                                                style={{ position: "absolute", top: "0", left: "0", width: "100%", height: "100%", "z-index": -1 }}
-                                            >
-                                                {[1, 2, 3, 4, 5, 6].map((i) => {
-                                                    const skillsInThisRow = skillsInSelectedTab().filter((s) => s.row === i);
-                                                    const c1 = skillsInThisRow.filter((s) => s.column === 1)[0];
-                                                    const c2 = skillsInThisRow.filter((s) => s.column === 2)[0];
-                                                    const c3 = skillsInThisRow.filter((s) => s.column === 3)[0];
-                                                    return (
-                                                        <Row class="d-flex flex-row text-center" style={{ height: "16.6667%", "z-index": -1 }}>
-                                                            <Col class="flex-grow-1 p-4">
-                                                                {c1 ? (
-                                                                    <SkillIcon
-                                                                        skill={c1}
-                                                                        increment={() => increment(c1)}
-                                                                        decrement={() => decrement(c1)}
-                                                                        pointsAssigned={() =>
-                                                                            character.skills.find((s) => s.name === c1.name)?.pointsAssigned ?? 0
-                                                                        }
-                                                                        active={() => canIncrement(c1)}
-                                                                    />
-                                                                ) : null}
-                                                            </Col>
-                                                            <Col class="flex-grow-1 p-4">
-                                                                {c2 ? (
-                                                                    <SkillIcon
-                                                                        skill={c2}
-                                                                        increment={() => increment(c2)}
-                                                                        decrement={() => decrement(c2)}
-                                                                        pointsAssigned={() =>
-                                                                            character.skills.find((s) => s.name === c2.name)?.pointsAssigned ?? 0
-                                                                        }
-                                                                        active={() => canIncrement(c2)}
-                                                                    />
-                                                                ) : null}
-                                                            </Col>
-                                                            <Col class="flex-grow-1 p-4">
-                                                                {c3 ? (
-                                                                    <SkillIcon
-                                                                        skill={c3}
-                                                                        increment={() => increment(c3)}
-                                                                        decrement={() => decrement(c3)}
-                                                                        pointsAssigned={() =>
-                                                                            character.skills.find((s) => s.name === c3.name)?.pointsAssigned ?? 0
-                                                                        }
-                                                                        active={() => canIncrement(c3)}
-                                                                    />
-                                                                ) : null}
-                                                            </Col>
-                                                        </Row>
-                                                    );
-                                                })}
-                                            </Container>
+                                        <Tab.Pane
+                                            eventKey={t.page}
+                                            style={{ height: "100%", position: "fixed", top: "0", left: "0", width: "100%", "z-index": -1 }}
+                                        >
+                                            {[1, 2, 3, 4, 5, 6].map((i) => {
+                                                const skillsInThisRow = skillsInSelectedTab().filter((s) => s.row === i);
+                                                const c1 = skillsInThisRow.filter((s) => s.column === 1)[0];
+                                                const c2 = skillsInThisRow.filter((s) => s.column === 2)[0];
+                                                const c3 = skillsInThisRow.filter((s) => s.column === 3)[0];
+                                                return (
+                                                    <Row class="text-center p-2 " style={{ height: "16.6667%" }}>
+                                                        <Col class="p-0">
+                                                            {c1 ? (
+                                                                <SkillIcon
+                                                                    skill={c1}
+                                                                    increment={() => increment(c1)}
+                                                                    decrement={() => decrement(c1)}
+                                                                    pointsAssigned={() => character.skills.find((s) => s.name === c1.name)?.pointsAssigned ?? 0}
+                                                                    active={() => canIncrement(c1)}
+                                                                />
+                                                            ) : null}
+                                                        </Col>
+                                                        <Col class="p-0">
+                                                            {c2 ? (
+                                                                <SkillIcon
+                                                                    skill={c2}
+                                                                    increment={() => increment(c2)}
+                                                                    decrement={() => decrement(c2)}
+                                                                    pointsAssigned={() => character.skills.find((s) => s.name === c2.name)?.pointsAssigned ?? 0}
+                                                                    active={() => canIncrement(c2)}
+                                                                />
+                                                            ) : null}
+                                                        </Col>
+                                                        <Col class="p-0">
+                                                            {c3 ? (
+                                                                <SkillIcon
+                                                                    skill={c3}
+                                                                    increment={() => increment(c3)}
+                                                                    decrement={() => decrement(c3)}
+                                                                    pointsAssigned={() => character.skills.find((s) => s.name === c3.name)?.pointsAssigned ?? 0}
+                                                                    active={() => canIncrement(c3)}
+                                                                />
+                                                            ) : null}
+                                                        </Col>
+                                                    </Row>
+                                                );
+                                            })}
                                         </Tab.Pane>
                                     ))}
                                 </div>
+                                <div class="median-gold diablo-font text-center">{skillTabs()[selectedTab()].tabDesc.replace(/Ã¿c[0-9]/g, "")}</div>
                                 <canvas
                                     id="arrow-canvas"
                                     class="arrow-canvas"
-                                    style={{ position: "absolute", "pointer-events": "none", left: 0, top: 0, width: "100%", height: "100%", "z-index": 1 }}
+                                    style={{ position: "absolute", "pointer-events": "none", left: 0, top: 0, width: "100%", height: "95%", "z-index": 1 }}
                                     ref={arrowCanvas}
                                 />
                             </div>
@@ -237,7 +229,7 @@ export const RightContent: Component<RightContentProps> = ({ data }) => {
                             </div>
                             {skillTabs().map((t) => (
                                 <Nav.Item>
-                                    <Nav.Link class="align-middle p-4 diablo-font" style={{ height: "100%" }} eventKey={t.page}>
+                                    <Nav.Link class="align-middle p-2 diablo-font" style={{ height: "100%" }} eventKey={t.page}>
                                         {t.tabName}
                                     </Nav.Link>
                                 </Nav.Item>

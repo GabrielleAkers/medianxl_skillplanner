@@ -46,13 +46,6 @@ const App: Component = () => {
         }
     });
 
-    // return (
-    //     <div class="container-fluid overflow-auto vh-100 d-flex flex-column pb-4 px-4 pt-4" style={{ color: "white" }}>
-    //         <div class="row flex-grow-1">
-    //             <div class="loading-logo" />
-    //         </div>
-    //     </div>
-    // );
     return (
         <>
             <div class="container-fluid overflow-auto vh-100 d-flex flex-column pb-4 px-4 pt-4" style={{ color: "white" }}>

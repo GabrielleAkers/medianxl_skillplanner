@@ -1,7 +1,6 @@
-import { Component, createEffect, createSignal } from "solid-js";
+import { Component } from "solid-js";
 import { SkillResponse } from "../../../shared/types";
-import { Button, ButtonGroup, OverlayTrigger, Tooltip } from "solid-bootstrap";
-import { imgFromb64 } from "../util";
+import { Button, OverlayTrigger, Tooltip } from "solid-bootstrap";
 
 export type SkillIconProps = { skill: SkillResponse; increment: () => any; decrement: () => any; pointsAssigned: () => number; active: () => boolean };
 export const SkillIcon: Component<SkillIconProps> = ({ skill, increment, decrement, pointsAssigned, active }) => {
@@ -15,10 +14,10 @@ export const SkillIcon: Component<SkillIconProps> = ({ skill, increment, decreme
             }
         >
             <div>
-                <div class="skill-icon align-middle position-relative" id={`skill-icon-${skill.row},${skill.column}`} style={{ "z-index": -1 }}>
+                <div class="skill-icon align-middle" id={`skill-icon-${skill.row},${skill.column}`} style={{ "z-index": -1 }}>
                     <div class="d-flex justify-content-center" style={{ width: "100%" }}>
-                        <div class="median-icon-image-border" style={{ width: "fit-content" }}>
-                            {imgFromb64(skill.b64IconBlob)}
+                        <div class="median-icon-image-border">
+                            <img height="auto" src={`data:image/png;base64,${skill.b64IconBlob}`} />
                         </div>
                     </div>
                     <div class={`diablo-font ${active() ? "" : "median-light-gray"}`}>{`${skill.name.replace(/Ã¿c[0-9]/g, "")}`}</div>
