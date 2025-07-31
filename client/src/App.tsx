@@ -3,12 +3,10 @@ import type { Component } from "solid-js";
 import { useQuery } from "@tanstack/solid-query";
 import type { SkillTreeResponse } from "../../shared/types";
 import { RightContent } from "./components/RightContent";
-import { INITIAL_CHARACTER, useCharacterStore } from "./components/CharacterStoreProvider";
-import { Button, Col, Container, Dropdown, DropdownButton, Form, ListGroup, Row } from "solid-bootstrap";
+import { useCharacterStore } from "./components/CharacterStoreProvider";
+import { Button, Col, Container, Form, ListGroup, Row } from "solid-bootstrap";
 import { LeftContent } from "./components/LeftContent";
 import { useSavedCharacters } from "./components/SavedCharacterStoreProvider";
-
-import D2LogoFire from "../assets/D2logoFire.gif";
 
 const ClassNames = ["Amazon", "Barbarian", "Necromancer", "Paladin", "Druid", "Sorceress", "Assassin"] as const;
 export type ClassName = (typeof ClassNames)[number];
