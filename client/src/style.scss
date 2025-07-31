@@ -42,6 +42,13 @@ $median-colors: (
     -webkit-touch-callout: none;
 }
 
+.loading-logo {
+    background-image: url("../assets/D2logoFire.gif");
+    background-position: center;
+    background-size: 50%;
+    background-repeat: no-repeat;
+}
+
 .inactive {
     background-color: $median-dark-gray !important;
     border-left: 3px solid $median-light-gray !important;
@@ -277,7 +284,7 @@ $median-colors: (
 body {
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
-    background-color: #202020;
+    background-color: black;
     overflow: hidden;
     padding: 0;
     margin: 0;

@@ -23,22 +23,22 @@ export const SkillIcon: Component<SkillIconProps> = ({ skill, increment, decreme
                     </div>
                     <div class={`diablo-font ${active() ? "" : "median-light-gray"}`}>{`${skill.name.replace(/Ã¿c[0-9]/g, "")}`}</div>
                     <div class="d-flex justify-content-center" style={{ width: "100%" }}>
-                        <div class="d-flex justify-content-around" style={{ "min-width": "50%" }}>
+                        <div class="d-flex justify-content-center" style={{ "min-width": "50%", "max-width": "100%" }}>
                             <Button
                                 class={`skill-pt-button p-0 m-0 ${active() ? "" : "inactive"}`}
-                                style={{ "min-width": "30%" }}
+                                style={{ "min-width": "35%" }}
                                 id={`skill-icon-${skill.name}-decrement`}
                                 onClick={decrement}
                                 disabled={!active()}
                             >
                                 -
                             </Button>
-                            <div class="diablo-font median-icon-point-tracker-border p-0" style={{ "min-width": "40%", color: "white" }}>
+                            <div class="diablo-font median-icon-point-tracker-border p-0" style={{ "min-width": "60%", color: "white" }}>
                                 {pointsAssigned()}
                             </div>
                             <Button
                                 class={`skill-pt-button p-0 m-0 ${active() ? "" : "inactive"}`}
-                                style={{ "min-width": "30%" }}
+                                style={{ "min-width": "35%" }}
                                 id={`skill-icon-${skill.name}-increment`}
                                 onClick={increment}
                                 disabled={!active()}

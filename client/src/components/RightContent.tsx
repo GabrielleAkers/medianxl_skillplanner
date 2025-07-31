@@ -11,14 +11,14 @@ const createArrows = (arrowCanvas: HTMLCanvasElement, tabContent: HTMLDivElement
     if (!arrowCanvas) return;
     const ctx = arrowCanvas.getContext("2d");
     ctx.canvas.hidden = false;
-    ctx.canvas.width = arrowCanvas.clientWidth;
-    ctx.canvas.height = arrowCanvas.clientHeight;
+    ctx.canvas.width = tabContent.clientWidth;
+    ctx.canvas.height = tabContent.clientHeight;
 
     ctx.strokeStyle = "black";
     ctx.lineWidth = 10;
 
-    const w = arrowCanvas.clientWidth;
-    const h = arrowCanvas.clientHeight;
+    const w = tabContent.clientWidth;
+    const h = tabContent.clientHeight;
     const cellW = w / 3;
     const cellH = h / 6;
     for (const s of skillsInTab) {
@@ -161,6 +161,7 @@ export const RightContent: Component<RightContentProps> = ({ data }) => {
                                         <Tab.Pane eventKey={t.page} style={{ height: "100%" }}>
                                             <Container
                                                 fluid
+                                                class="pb-4"
                                                 style={{ position: "absolute", top: "0", left: "0", width: "100%", height: "100%", "z-index": -1 }}
                                             >
                                                 {[1, 2, 3, 4, 5, 6].map((i) => {

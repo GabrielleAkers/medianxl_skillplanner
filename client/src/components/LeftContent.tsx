@@ -142,7 +142,7 @@ export const LeftContent: Component<LeftContentProps> = ({}) => {
                                             </div>
                                         </Col>
                                     </Row>
-                                    <Row class="d-flex flex-row text-center" style={{ height: "30%" }}>
+                                    <Row class="d-flex flex-row text-center" style={{ height: "30%" }} sm={1} md={1} lg={1} xl={1} xxl={2}>
                                         <Col class="flex-grow-1 p-4">
                                             <AttributeEditor attributeName="Strength" />
                                         </Col>
@@ -150,7 +150,7 @@ export const LeftContent: Component<LeftContentProps> = ({}) => {
                                             <AttributeEditor attributeName="Dexterity" />
                                         </Col>
                                     </Row>
-                                    <Row class="d-flex flex-row text-center" style={{ height: "30%" }}>
+                                    <Row class="d-flex flex-row text-center" style={{ height: "30%" }} sm={1} md={1} lg={1} xl={1} xxl={2}>
                                         <Col class="flex-grow-1 p-4">
                                             <AttributeEditor attributeName="Intelligence" />
                                         </Col>
@@ -158,7 +158,7 @@ export const LeftContent: Component<LeftContentProps> = ({}) => {
                                             <AttributeEditor attributeName="Vitality" />
                                         </Col>
                                     </Row>
-                                    <Row class="d-flex flex-row text-center" style={{ height: "20%" }}>
+                                    <Row class="d-flex flex-row text-center" style={{ height: "20%" }} sm={1} md={1} lg={1} xl={1} xxl={2}>
                                         <Col class="flex-grow-1 p-4">
                                             <div>
                                                 <div class="align-middle position-relative" style={{ "z-index": -1 }}>

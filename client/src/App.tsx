@@ -8,6 +8,8 @@ import { Button, Col, Container, Dropdown, DropdownButton, Form, ListGroup, Row 
 import { LeftContent } from "./components/LeftContent";
 import { useSavedCharacters } from "./components/SavedCharacterStoreProvider";
 
+import D2LogoFire from "../assets/D2logoFire.gif";
+
 const ClassNames = ["Amazon", "Barbarian", "Necromancer", "Paladin", "Druid", "Sorceress", "Assassin"] as const;
 export type ClassName = (typeof ClassNames)[number];
 export const Attributes = ["Strength", "Dexterity", "Intelligence", "Vitality"] as const;
@@ -44,21 +46,28 @@ const App: Component = () => {
         }
     });
 
+    // return (
+    //     <div class="container-fluid overflow-auto vh-100 d-flex flex-column pb-4 px-4 pt-4" style={{ color: "white" }}>
+    //         <div class="row flex-grow-1">
+    //             <div class="loading-logo" />
+    //         </div>
+    //     </div>
+    // );
     return (
         <>
-            <div class="container-fluid overflow-hidden vh-100 d-flex flex-column pb-4 px-4" style={{ color: "white" }}>
-                <div id="appbar" class="row text-center">
-                    <div class="col">
-                        <text class="diablo-font" style={{ color: "white", "font-size": "xxx-large", "align-self": "center" }}>
-                            MedianXL Skillplanner
-                        </text>
-                    </div>
-                </div>
+            <div class="container-fluid overflow-auto vh-100 d-flex flex-column pb-4 px-4 pt-4" style={{ color: "white" }}>
                 <div class="row flex-grow-1">
                     <Show
                         when={character.class !== "NONE"}
                         fallback={
                             <Container class="ms-0 p-4">
+                                <div id="appbar" class="row text-center">
+                                    <div class="col">
+                                        <text class="diablo-font median-gold" style={{ "font-size": "xxx-large", "align-self": "center" }}>
+                                            MedianXL Skillplanner
+                                        </text>
+                                    </div>
+                                </div>
                                 <div class="pe-4 align-middle" style={{ width: "100%", height: "inherited" }}>
                                     <div class="median-gold diablo-font align-middle p-4" style={{ "font-size": "32px" }}>
                                         <div class="text-center">Create New Build</div>
@@ -177,10 +186,8 @@ const App: Component = () => {
                         <ErrorBoundary fallback={(e) => <div class="container-fluid text-center">Broken 😢 {e.message}</div>}>
                             <Suspense
                                 fallback={
-                                    <div class="d-flex justify-content-center">
-                                        <div class="spinner-border" role="status" style={{ color: "pink" }}>
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
+                                    <div class="row flex-grow-1">
+                                        <div class="loading-logo" />
                                     </div>
                                 }
                             >
