@@ -46,7 +46,7 @@ const AttributeEditor: Component<AttributeEditorProps> = ({ attributeName }) => 
                         >
                             -
                         </Button>
-                        <div class="diablo-font median-icon-point-tracker-border p-0" style={{ "min-width": "40%", color: "white" }}>
+                        <div class="diablo-font median-icon-point-tracker-border" style={{ "min-width": "50%", color: "white" }}>
                             {character.attributes[attributeName]}
                         </div>
                         <Button
