@@ -26,6 +26,8 @@ render(
             <Meta property="og:image" content={`${favicon}`} />
             <Meta property="og:description" content="MedianXL Skillplanner" />
             <Meta property="og:title" content="MedianXL Skillplanner" />
+            <Meta property="og:type" content="website" />
+            <Meta property="og:url" content="https://gabrielleakers.github.io/medianxl_skillplanner/" />
             <QueryClientProvider client={client}>
                 <CharacterStoreProvider>
                     <SavedCharacterStoreProvider>
