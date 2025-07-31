@@ -1,8 +1,14 @@
 import { Component } from "solid-js";
-import { SkillResponse } from "../../../shared/types";
+import { Skill, SkillResponse } from "../../../shared/types";
 import { Button, OverlayTrigger, Tooltip } from "solid-bootstrap";
 
-export type SkillIconProps = { skill: SkillResponse; increment: () => any; decrement: () => any; pointsAssigned: () => number; active: () => boolean };
+export type SkillIconProps = {
+    skill: SkillResponse;
+    increment: (skill: Skill, shiftHeld: boolean) => any;
+    decrement: (skill: Skill, shiftHeld: boolean) => any;
+    pointsAssigned: () => number;
+    active: () => boolean;
+};
 export const SkillIcon: Component<SkillIconProps> = ({ skill, increment, decrement, pointsAssigned, active }) => {
     return (
         <OverlayTrigger
@@ -27,7 +33,7 @@ export const SkillIcon: Component<SkillIconProps> = ({ skill, increment, decreme
                                 class={`skill-pt-button p-0 m-0 ${active() ? "" : "inactive"}`}
                                 style={{ "min-width": "35%" }}
                                 id={`skill-icon-${skill.name}-decrement`}
-                                onClick={decrement}
+                                onClick={(e) => decrement(skill, e.shiftKey)}
                                 disabled={!active()}
                             >
                                 -
@@ -39,7 +45,7 @@ export const SkillIcon: Component<SkillIconProps> = ({ skill, increment, decreme
                                 class={`skill-pt-button p-0 m-0 ${active() ? "" : "inactive"}`}
                                 style={{ "min-width": "35%" }}
                                 id={`skill-icon-${skill.name}-increment`}
-                                onClick={increment}
+                                onClick={(e) => increment(skill, e.shiftKey)}
                                 disabled={!active()}
                             >
                                 +

@@ -97,20 +97,22 @@ export const RightContent: Component<RightContentProps> = ({ data }) => {
         return canAssign;
     };
 
-    const increment = (skill: SkillResponse) => {
+    const increment = (skill: SkillResponse, shiftHeld: boolean) => {
         if (character.skillPointsRemaining < 1) return;
         setCharacter(
             "skills",
             (s) => s.name === skill.name,
             produce((s) => {
                 if (!canIncrement(s as SkillResponse)) return;
-                s.pointsAssigned += 1;
-                setCharacter("skillPointsRemaining", (p) => p - 1);
+                let num = shiftHeld ? 10 : 1;
+                const n = Math.min(character.skillPointsRemaining, num);
+                s.pointsAssigned += n;
+                setCharacter("skillPointsRemaining", (p) => p - n);
             })
         );
     };
 
-    const decrement = (skill: SkillResponse) => {
+    const decrement = (skill: SkillResponse, shiftHeld: boolean) => {
         setCharacter(
             "skills",
             (s) => s.name === skill.name,
@@ -120,7 +122,9 @@ export const RightContent: Component<RightContentProps> = ({ data }) => {
                     const r2 = character.skills.filter((_s) => _s.reqSkill2 === s.name);
                     const r3 = character.skills.filter((_s) => _s.reqSkill3 === s.name);
                     let canRemove = true;
-                    if (s.pointsAssigned === 1) {
+                    const num = shiftHeld ? 10 : 1;
+                    let n = Math.min(s.pointsAssigned, num);
+                    if (s.pointsAssigned - n <= 0) {
                         for (const k of r1) {
                             if (k.pointsAssigned >= 1) canRemove = false;
                         }
@@ -131,9 +135,12 @@ export const RightContent: Component<RightContentProps> = ({ data }) => {
                             if (k.pointsAssigned >= 1) canRemove = false;
                         }
                     }
-                    if (!canRemove) return;
-                    s.pointsAssigned -= 1;
-                    setCharacter("skillPointsRemaining", (p) => p + 1);
+                    if (!canRemove) {
+                        if (s.pointsAssigned === 1) return;
+                        n = s.pointsAssigned - 1;
+                    }
+                    s.pointsAssigned -= n;
+                    setCharacter("skillPointsRemaining", (p) => p + n);
                 }
             })
         );
@@ -173,8 +180,8 @@ export const RightContent: Component<RightContentProps> = ({ data }) => {
                                                             {c1 ? (
                                                                 <SkillIcon
                                                                     skill={c1}
-                                                                    increment={() => increment(c1)}
-                                                                    decrement={() => decrement(c1)}
+                                                                    increment={increment}
+                                                                    decrement={decrement}
                                                                     pointsAssigned={() => character.skills.find((s) => s.name === c1.name)?.pointsAssigned ?? 0}
                                                                     active={() => canIncrement(c1)}
                                                                 />
@@ -184,8 +191,8 @@ export const RightContent: Component<RightContentProps> = ({ data }) => {
                                                             {c2 ? (
                                                                 <SkillIcon
                                                                     skill={c2}
-                                                                    increment={() => increment(c2)}
-                                                                    decrement={() => decrement(c2)}
+                                                                    increment={increment}
+                                                                    decrement={decrement}
                                                                     pointsAssigned={() => character.skills.find((s) => s.name === c2.name)?.pointsAssigned ?? 0}
                                                                     active={() => canIncrement(c2)}
                                                                 />
@@ -195,8 +202,8 @@ export const RightContent: Component<RightContentProps> = ({ data }) => {
                                                             {c3 ? (
                                                                 <SkillIcon
                                                                     skill={c3}
-                                                                    increment={() => increment(c3)}
-                                                                    decrement={() => decrement(c3)}
+                                                                    increment={increment}
+                                                                    decrement={decrement}
                                                                     pointsAssigned={() => character.skills.find((s) => s.name === c3.name)?.pointsAssigned ?? 0}
                                                                     active={() => canIncrement(c3)}
                                                                 />
