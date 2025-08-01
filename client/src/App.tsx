@@ -8,6 +8,8 @@ import { Button, Col, Container, Form, ListGroup, Row } from "solid-bootstrap";
 import { LeftContent } from "./components/LeftContent";
 import { useSavedCharacters } from "./components/SavedCharacterStoreProvider";
 
+import GithubLogo from "../assets/github-mark-white.png";
+
 const ClassNames = ["Amazon", "Barbarian", "Necromancer", "Paladin", "Druid", "Sorceress", "Assassin"] as const;
 export type ClassName = (typeof ClassNames)[number];
 export const Attributes = ["Strength", "Dexterity", "Intelligence", "Vitality"] as const;
@@ -74,7 +76,7 @@ const App: Component = () => {
                                             style={{ right: "0px" }}
                                             href="https://github.com/GabrielleAkers/medianxl_skillplanner"
                                         >
-                                            <img height="48px" width="48px" src="assets/github-mark-white.svg" />
+                                            <img height="48px" width="48px" src={GithubLogo} />
                                         </a>
                                     </div>
                                 </div>
