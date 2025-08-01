@@ -1,8 +1,8 @@
 import { Accessor, createContext, createSignal, onMount, ParentProps, Setter, useContext } from "solid-js";
-import { Attribute, ClassName } from "../App";
-import { SkillResponse } from "../../../shared/types";
-import { createStore, SetStoreFunction } from "solid-js/store";
+import { ClassName } from "../App";
+import { createStore } from "solid-js/store";
 import { Character } from "./CharacterStoreProvider";
+import * as lzstring from "lz-string";
 
 export const SAVED_CHARACTERS_KEY = "saved-characters";
 
@@ -17,8 +17,8 @@ export const INITIAL_SAVED_CHARACTERS: SavedCharacter[] = [];
 export interface SavedCharacterContext {
     characters: SavedCharacter[];
     saveCharacter: (name: string, character: Character, className: ClassName) => void;
-    loadCharacter: (name: string) => Character | null;
-    loadCharacterFromCode: (code: string) => Character | null;
+    loadCharacter: (name: string) => Promise<Character | null>;
+    loadCharacterFromCode: (code: string) => Promise<Character | null>;
     deleteCharacter: (name: string) => void;
     toClipboard: (character: Character, asLink?: boolean) => Promise<void>;
     setBuildName: Setter<string>;
@@ -59,7 +59,7 @@ export const SavedCharacterStoreProvider = (props: ParentProps) => {
             );
     });
 
-    const saveCharacter = (name: string, character: Character, className: ClassName) => {
+    const saveCharacter = async (name: string, character: Character, className: ClassName) => {
         const localStorageCharactersString = window.localStorage.getItem(SAVED_CHARACTERS_KEY);
         if (localStorageCharactersString) {
             const savedCharacters: {
@@ -77,11 +77,11 @@ export const SavedCharacterStoreProvider = (props: ParentProps) => {
                 reqSkill2: s.reqSkill2,
                 reqSkill3: s.reqSkill3,
             }));
-            const b64Char = btoa(JSON.stringify(stripped));
-            savedCharacters[name] = { data: b64Char, class: className };
+            const code = lzstring.compressToEncodedURIComponent(JSON.stringify(stripped));
+            savedCharacters[name] = { data: code, class: className };
             window.localStorage.setItem(SAVED_CHARACTERS_KEY, JSON.stringify(savedCharacters));
             const f = store.filter((c) => c.name !== name);
-            setStore([...f, { name, data: b64Char, class: className }]);
+            setStore([...f, { name, data: code, class: className }]);
         } else {
             const savedCharacters: {
                 [k: string]: {
@@ -98,14 +98,14 @@ export const SavedCharacterStoreProvider = (props: ParentProps) => {
                 reqSkill2: s.reqSkill2,
                 reqSkill3: s.reqSkill3,
             }));
-            const b64Char = btoa(JSON.stringify(stripped));
+            const code = lzstring.compressToEncodedURIComponent(JSON.stringify(stripped));
             window.localStorage.setItem(SAVED_CHARACTERS_KEY, JSON.stringify(savedCharacters));
             const f = store.filter((c) => c.name !== name);
-            setStore([...f, { name, data: b64Char, class: className }]);
+            setStore([...f, { name, data: code, class: className }]);
         }
     };
 
-    const loadCharacter = (name: string): Character | null => {
+    const loadCharacter = async (name: string): Promise<Character | null> => {
         const localStorageCharactersString = window.localStorage.getItem(SAVED_CHARACTERS_KEY);
         if (!localStorageCharactersString) return null;
         const savedCharacters: {
@@ -115,16 +115,15 @@ export const SavedCharacterStoreProvider = (props: ParentProps) => {
             };
         } = JSON.parse(localStorageCharactersString);
         if (!Object.hasOwn(savedCharacters, name)) return null;
-        const character = JSON.parse(atob(savedCharacters[name].data));
+        const character = JSON.parse(lzstring.decompressFromEncodedURIComponent(savedCharacters[name].data));
         if (isCharacter(character)) return character;
 
         return null;
     };
 
-    const loadCharacterFromCode = (code: string): Character | null => {
+    const loadCharacterFromCode = async (code: string): Promise<Character | null> => {
         try {
-            const decoded = atob(code);
-            const character = JSON.parse(decoded);
+            const character = JSON.parse(lzstring.decompressFromEncodedURIComponent(code));
             if (isCharacter(character)) return character;
             return null;
         } catch {
@@ -153,7 +152,7 @@ export const SavedCharacterStoreProvider = (props: ParentProps) => {
             reqSkill2: s.reqSkill2,
             reqSkill3: s.reqSkill3,
         }));
-        const b64Char = btoa(JSON.stringify(stripped));
+        const b64Char = lzstring.compressToEncodedURIComponent(JSON.stringify(stripped));
         try {
             if (asLink) {
                 await navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}${window.location.pathname}?code=${b64Char}`);

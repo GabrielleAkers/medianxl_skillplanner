@@ -34,12 +34,15 @@ const App: Component = () => {
     }));
 
     onMount(() => {
-        const query = new URLSearchParams(window.location.search);
-        const code = query.get("code");
-        if (code) {
-            const c = characterSaver.loadCharacterFromCode(code);
-            setCharacter(c);
-        }
+        const loadFromQuery = async () => {
+            const query = new URLSearchParams(window.location.search);
+            const code = query.get("code");
+            if (code) {
+                const c = await characterSaver.loadCharacterFromCode(code);
+                setCharacter(c);
+            }
+        };
+        loadFromQuery();
     });
 
     createEffect(() => {
@@ -126,8 +129,8 @@ const App: Component = () => {
                                                             <Col class="align-middle justify-content-center d-flex">
                                                                 <Button
                                                                     class="m-0 me-1 median-button"
-                                                                    onClick={() => {
-                                                                        const loadedCharacter = characterSaver.loadCharacter(c.name);
+                                                                    onClick={async () => {
+                                                                        const loadedCharacter = await characterSaver.loadCharacter(c.name);
                                                                         characterSaver.setBuildName(c.name);
                                                                         setCharacter(loadedCharacter);
                                                                     }}
@@ -165,9 +168,9 @@ const App: Component = () => {
                                         <div class="d-flex justify-content-center p-2">
                                             <Button
                                                 class="median-button"
-                                                onClick={(e) => {
+                                                onClick={async (e) => {
                                                     if (!buildCode()) return;
-                                                    const loaded = characterSaver.loadCharacterFromCode(buildCode());
+                                                    const loaded = await characterSaver.loadCharacterFromCode(buildCode());
                                                     if (loaded) {
                                                         setCharacter(loaded);
                                                         console.log("loaded from code");
