@@ -1,4 +1,4 @@
-import { createEffect, createSignal, ErrorBoundary, Show, Suspense } from "solid-js";
+import { createEffect, createSignal, ErrorBoundary, onMount, Show, Suspense } from "solid-js";
 import type { Component } from "solid-js";
 import { useQuery } from "@tanstack/solid-query";
 import type { SkillTreeResponse } from "../../shared/types";
@@ -33,13 +33,22 @@ const App: Component = () => {
         throwOnError: true,
     }));
 
+    onMount(() => {
+        const query = new URLSearchParams(window.location.search);
+        const code = query.get("code");
+        if (code) {
+            const c = characterSaver.loadCharacterFromCode(code);
+            setCharacter(c);
+        }
+    });
+
     createEffect(() => {
         if (character.class !== "NONE" && skillTree.data) {
             if (character.version && character.version !== "") return;
             setCharacter("version", skillTree.data.version);
             setCharacter(
                 "skills",
-                skillTree.data.skills.map((s) => ({ ...s, pointsAssigned: 0 }))
+                skillTree.data.skills.map((s) => ({ ...s, pointsAssigned: 0 })).filter((s) => s.name !== "FLYING POLAR BUFFALO ERROR")
             );
         }
     });

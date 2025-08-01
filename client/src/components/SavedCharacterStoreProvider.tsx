@@ -20,7 +20,7 @@ export interface SavedCharacterContext {
     loadCharacter: (name: string) => Character | null;
     loadCharacterFromCode: (code: string) => Character | null;
     deleteCharacter: (name: string) => void;
-    toClipboard: (character: Character) => Promise<void>;
+    toClipboard: (character: Character, asLink?: boolean) => Promise<void>;
     setBuildName: Setter<string>;
     buildName: Accessor<string>;
 }
@@ -68,9 +68,16 @@ export const SavedCharacterStoreProvider = (props: ParentProps) => {
                     class: ClassName;
                 };
             } = JSON.parse(localStorageCharactersString);
-            const noims = { ...character };
-            noims.skills = noims.skills.map((s) => ({ ...s, b64IconBlob: "" }));
-            const b64Char = btoa(JSON.stringify(noims));
+            const stripped = { ...character };
+            // @ts-expect-error
+            stripped.skills = stripped.skills.map((s) => ({
+                name: s.name,
+                pointsAssigned: s.pointsAssigned,
+                reqSkill1: s.reqSkill1,
+                reqSkill2: s.reqSkill2,
+                reqSkill3: s.reqSkill3,
+            }));
+            const b64Char = btoa(JSON.stringify(stripped));
             savedCharacters[name] = { data: b64Char, class: className };
             window.localStorage.setItem(SAVED_CHARACTERS_KEY, JSON.stringify(savedCharacters));
             const f = store.filter((c) => c.name !== name);
@@ -82,9 +89,16 @@ export const SavedCharacterStoreProvider = (props: ParentProps) => {
                     class: ClassName;
                 };
             } = {};
-            const noims = { ...character };
-            noims.skills = noims.skills.map((s) => ({ ...s, b64IconBlob: "" }));
-            const b64Char = btoa(JSON.stringify(noims));
+            const stripped = { ...character };
+            // @ts-expect-error
+            stripped.skills = stripped.skills.map((s) => ({
+                name: s.name,
+                pointsAssigned: s.pointsAssigned,
+                reqSkill1: s.reqSkill1,
+                reqSkill2: s.reqSkill2,
+                reqSkill3: s.reqSkill3,
+            }));
+            const b64Char = btoa(JSON.stringify(stripped));
             window.localStorage.setItem(SAVED_CHARACTERS_KEY, JSON.stringify(savedCharacters));
             const f = store.filter((c) => c.name !== name);
             setStore([...f, { name, data: b64Char, class: className }]);
@@ -129,12 +143,23 @@ export const SavedCharacterStoreProvider = (props: ParentProps) => {
         }
     };
 
-    const toClipboard = async (character: Character) => {
-        const noims = { ...character };
-        noims.skills = noims.skills.map((s) => ({ ...s, b64IconBlob: "" }));
-        const b64Char = btoa(JSON.stringify(noims));
+    const toClipboard = async (character: Character, asLink: boolean = false) => {
+        const stripped = { ...character };
+        // @ts-expect-error
+        stripped.skills = stripped.skills.map((s) => ({
+            name: s.name,
+            pointsAssigned: s.pointsAssigned,
+            reqSkill1: s.reqSkill1,
+            reqSkill2: s.reqSkill2,
+            reqSkill3: s.reqSkill3,
+        }));
+        const b64Char = btoa(JSON.stringify(stripped));
         try {
-            await navigator.clipboard.writeText(b64Char);
+            if (asLink) {
+                await navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}${window.location.pathname}?code=${b64Char}`);
+            } else {
+                await navigator.clipboard.writeText(b64Char);
+            }
         } catch (error) {
             console.error(error);
         }

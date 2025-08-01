@@ -117,7 +117,7 @@ export const LeftContent: Component<LeftContentProps> = ({}) => {
                                     onClick={() => {
                                         characterSaver.setBuildName(null);
                                         if (confirm("Are you sure? Any unsaved changes will be lost.")) {
-                                            location.reload();
+                                            window.location.href = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
                                         }
                                     }}
                                 >
@@ -205,9 +205,12 @@ export const LeftContent: Component<LeftContentProps> = ({}) => {
                                             <div class="align-middle">
                                                 <div class="align-middle" style={{ "z-index": -1 }}>
                                                     <div class="median-gold diablo-font align-middle p-4" style={{ "font-size": "32px" }}>
-                                                        <div>To Build Code</div>
-                                                        <Button class="median-button" onClick={() => characterSaver.toClipboard(character)}>
-                                                            Copy
+                                                        <div>Sharing</div>
+                                                        <Button class="median-button me-2" onClick={() => characterSaver.toClipboard(character)}>
+                                                            Copy Build Code
+                                                        </Button>
+                                                        <Button class="median-button ms-2" onClick={() => characterSaver.toClipboard(character, true)}>
+                                                            Copy Build Link
                                                         </Button>
                                                     </div>
                                                 </div>
