@@ -69,6 +69,13 @@ const App: Component = () => {
                                         <text class="diablo-font median-gold" style={{ "font-size": "xxx-large", "align-self": "center" }}>
                                             MedianXL Skillplanner
                                         </text>
+                                        <a
+                                            class="position-absolute top-0 m-2"
+                                            style={{ right: "0px" }}
+                                            href="https://github.com/GabrielleAkers/medianxl_skillplanner"
+                                        >
+                                            <img height="48px" width="48px" src="assets/github-mark-white.svg" />
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="pe-4 align-middle" style={{ width: "100%", height: "inherited" }}>
